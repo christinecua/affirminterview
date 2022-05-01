@@ -1,0 +1,66 @@
+<template>
+    <div class="spinner">
+        <template if:true={isProcessing}>
+             <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+             </lightning-spinner>
+        </template>
+    </div>
+    <div class="demo-only" style="padding:0.5rem;background:#16325c;font-size: 30px;">
+        <lightning-icon icon-name="standard:account" size="medium"></lightning-icon>
+        <span class="slds-text-color_inverse slds-var-p-left_medium">Accounts</span><h4 class="slds-text-color_inverse slds-float_right">{accountName}</h4>
+        
+    </div>
+    
+        <div class="slds-card__body slds-card__body_inner">
+            <template if:true={isShowingList}>
+                <div class="slds-var-m-top_medium slds-align_absolute-center">
+                    <lightning-datatable
+                            class="slds-table slds-table--bordered"
+                            key-field="Id"
+                            data={accounts}
+                            columns={columns}
+                            onrowselection={getSelectedRowData}
+                            max-row-selection="1">
+                    </lightning-datatable>
+                </div>
+                <div class="slds-var-m-top_medium slds-align_absolute-center">
+                    <lightning-button variant="brand" label="Next" onclick={getAccountData}></lightning-button>
+                </div>
+            </template>
+            <template if:false={isShowingList}>
+                <div class="slds-m-around_medium">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered" width="100%" border="1" bordercolor="#ddd" cellpadding="5" cellspacing="0" style="border-collapse:collapse; font-weight:bold;">
+                        <tbody> 
+                        <tr>
+                        <td valign="top" width="50%" style="background:#eee;">Id</td>
+                        <td valign="top" width="50%" style="color:#ff8000;"><span class="slds-var-m-right_medium">{account.Id}</span><lightning-button variant="brand" label="Go to Record" onclick={navigateToAccountRecord}></lightning-button></td>        
+                        </tr>
+                        <tr>
+                        <td style="background:#eee;">Name</td>
+                        <td style="color:#ff8000;">{account.Name}</td>
+                        </tr>
+                        <tr>
+                        <td style="background:#eee;">Industry</td>
+                        <td style="color:#ff8000;">{account.Industry}</td>
+                        </tr>
+                        <tr>
+                            <td style="background:#eee;">Type</td>
+                            <td style="color:#ff8000;">{account.Type}</td>
+                        </tr>
+                        <tr>
+                            <td style="background:#eee;">Owner Name</td>
+                            <td style="color:#ff8000;"><img src={account.Owner.SmallPhotoUrl} alt={account.Owner.Name}/><span>{account.Owner.Name}</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="slds-var-m-top_medium slds-align_absolute-center">
+                    <lightning-button variant="brand" label="Back" onclick={refreshAccountList}></lightning-button>
+                </div>
+            </template>
+            <template if:true={error}>
+                <span style="color:red">{error}></span>
+            </template>
+        </div>
+        
+</template>
